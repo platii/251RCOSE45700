@@ -9,11 +9,11 @@ import drawingapp.ShapeSelectedListener;
 import drawingapp.shapes.DrawableShape;
 
 public class PropertyPanel extends JPanel {
-    private JLabel typeLabel;
-    private JLabel positionLabel;
-    private JTextField widthField, heightField;
-    private JColorChooser colorChooser;
-    private DrawingPanel drawingPanel;
+    private final JLabel typeLabel;
+    private final JLabel positionLabel;
+    private final JTextField widthField, heightField;
+    private final JColorChooser colorChooser;
+    private final DrawingPanel drawingPanel;
 
     public PropertyPanel(DrawingPanel drawingPanel) {
         this.drawingPanel = drawingPanel;
@@ -85,7 +85,7 @@ public class PropertyPanel extends JPanel {
             positionLabel.setText(" ");
             widthField.setText("");
             heightField.setText("");
-            colorChooser.setColor(Color.WHITE);
+            //colorChooser.setColor(selectedColor);
             return;
         }
 
@@ -106,6 +106,6 @@ public class PropertyPanel extends JPanel {
 
         widthField.setText(String.valueOf(shape.getWidth()));
         heightField.setText(String.valueOf(shape.getHeight()));
-        colorChooser.setColor(shape.getColor());
+       // colorChooser.setColor(shape.getColor());
     }
 }

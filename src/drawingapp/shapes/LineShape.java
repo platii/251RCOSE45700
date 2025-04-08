@@ -1,25 +1,68 @@
 package drawingapp.shapes;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import drawingapp.ResizeHandle;
+
+import java.awt.*;
+import java.awt.geom.Line2D;
+import java.util.HashMap;
+import java.util.Map;
+
+import static drawingapp.ResizeHandle.*;
 
 public class LineShape implements DrawableShape {
     private int x1, y1, x2, y2;
     private boolean selected = false;
     private Color color = Color.BLACK;
+    private final float strokeWidth = 3.0F;
+    private final int handleSize = 8;
 
-    public LineShape(int x1, int y1, int x2, int y2) {
+    public LineShape(int x1, int y1, int x2, int y2, Color color) {
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
+        this.color = color;
     }
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(selected ? Color.RED : color);
-        g.drawLine(x1, y1, x2, y2);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(color);
+        g2d.setStroke(new BasicStroke(strokeWidth));
+        //g2d.draw(new Line2D.Float(x1, y1, x2, y2));
+        g2d.drawLine(x1, y1, x2, y2);
+
+        if (selected) {
+            int width = Math.abs(x2 - x1);
+            int height = Math.abs(y2 - y1);
+            g2d.setColor(new Color(0, 120, 215)); // 파란 테두리
+            g2d.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND,
+                    1f, new float[]{5f, 5f}, 0)); // 점선
+            g2d.drawRect(Math.min(x1,x2) - handleSize / 2, Math.min(y1,y2) - handleSize / 2, width + handleSize, height + handleSize); // 약간 크게
+
+            g2d.setColor(Color.DARK_GRAY);
+            g2d.fillRect(Math.min(x1, x2) + width / 2 - handleSize / 2 , Math.min(y1, y2) - handleSize / 2, handleSize, handleSize); //  (TOP);
+            g2d.fillRect(Math.min(x1, x2) + width / 2 - handleSize / 2 , Math.min(y1, y2) + height - handleSize / 2 , handleSize, handleSize); //  (BOTTOM);
+            g2d.fillRect(Math.min(x1, x2) - handleSize / 2, Math.min(y1, y2) + height / 2 - handleSize / 2, handleSize, handleSize); //  (LEFT);
+            g2d.fillRect(Math.min(x1, x2) + width - handleSize / 2, Math.min(y1, y2) + height / 2 - handleSize / 2, handleSize, handleSize); //  (RIGHT);
+            g2d.fillRect(Math.min(x1,x2) - handleSize / 2, Math.min(y1,y2) - handleSize / 2, handleSize, handleSize); // 좌상단
+            g2d.fillRect(Math.max(x1,x2) - handleSize / 2, Math.min(y1,y2) - handleSize / 2, handleSize, handleSize); // 우상단
+            g2d.fillRect(Math.min(x1,x2) - handleSize / 2, Math.max(y1,y2) - handleSize / 2, handleSize, handleSize); // 좌하단
+            g2d.fillRect(Math.max(x1,x2) - handleSize / 2, Math.max(y1,y2) - handleSize / 2, handleSize, handleSize); // 우하단
+        }
     }
+
+    @Override
+    public Map<ResizeHandle, Rectangle> getHandleBounds() {     // 사용x
+        int halfSize = handleSize / 2;
+        Map<ResizeHandle, Rectangle> map = new HashMap<>();
+        map.put(ResizeHandle.TOP_LEFT, new Rectangle(x1 - halfSize, y1 - halfSize, handleSize, handleSize));
+        map.put(ResizeHandle.TOP_RIGHT, new Rectangle(x1 + x2 - halfSize, y1 - halfSize, handleSize, handleSize));
+        map.put(ResizeHandle.BOTTOM_LEFT, new Rectangle(x1 - halfSize, y1 + y2 - halfSize, handleSize, handleSize));
+        map.put(ResizeHandle.BOTTOM_RIGHT, new Rectangle(x1 + x2 - halfSize, y1 + y2 - halfSize, handleSize, handleSize));
+        return map;
+    }
+
 
     @Override
     public boolean contains(int px, int py) {
@@ -35,6 +78,17 @@ public class LineShape implements DrawableShape {
         double closestY = y1 + dot * dy;
         return Math.hypot(px - closestX, py - closestY) <= TOLERANCE;
     }
+
+    @Override
+    public ResizeHandle resizeContains(int px, int py) {    //생략
+        return NONE;
+    }
+
+    @Override
+    public void resize(int dx, int dy, ResizeHandle selectedResizeHandler){
+        //생략
+    }
+
 
     @Override
     public void moveBy(int dx, int dy) {
@@ -67,13 +121,6 @@ public class LineShape implements DrawableShape {
     @Override
     public void setColor(Color color) {
         this.color = color;
-    }
-
-    @Override
-    public DrawableShape cloneShape() {
-        LineShape copy = new LineShape(x1 + 10, y1 + 10, x2 + 10, y2 + 10);
-        copy.setColor(this.color);
-        return copy;
     }
 
     @Override
