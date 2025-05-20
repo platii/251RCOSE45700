@@ -12,7 +12,7 @@ public class PropertyPanel extends JPanel {
     private JLabel positionLabel;
     private JTextField widthField, heightField;
     private JColorChooser colorChooser;
-    private final DrawingPanel drawingPanel;
+    public DrawingPanel drawingPanel;
 
     public PropertyPanel(DrawingPanel drawingPanel) {
         this.drawingPanel = drawingPanel;
