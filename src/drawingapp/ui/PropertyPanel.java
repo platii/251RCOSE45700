@@ -23,12 +23,8 @@ public class PropertyPanel extends JPanel {
         initLabel();
 
         // 도형 선택 리스너 등록
-        drawingPanel.addShapeSelectedListener(new ShapeSelectedListener() {
-            @Override
-            public void onShapeSelected(DrawableShape shape) {
-                updateProperties(shape);
-            }
-        });
+        initListener();
+
     }
 
     private void initLabel() {
@@ -62,6 +58,15 @@ public class PropertyPanel extends JPanel {
         colorChooser.setPreviewPanel(new JPanel()); // 간단화
         colorChooser.setMaximumSize(new Dimension(240, 300));
         this.add(colorChooser);
+    }
+
+    private void initListener() {
+        drawingPanel.addShapeSelectedListener(new ShapeSelectedListener() {
+            @Override
+            public void onShapeSelected(DrawableShape shape) {
+                updateProperties(shape);
+            }
+        });
     }
 
     private void updateWidth() {
