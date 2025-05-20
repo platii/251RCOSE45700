@@ -12,7 +12,10 @@ public class DrawingToolBar extends JPanel {
     public DrawingToolBar(DrawingPanel drawingPanel) {
         this.drawingPanel = drawingPanel;
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
+        initBtn();
+    }
 
+    private void initBtn() {
         JButton selectBtn = new JButton("선택");
         JButton rectBtn = new JButton("사각형");
         JButton lineBtn = new JButton("선");

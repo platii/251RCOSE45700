@@ -24,11 +24,24 @@ public class DrawingPanel extends JPanel {
     private ResizeHandle selectedResizeHandler = NONE;
     private boolean clickedAny = false;
 
-
     public DrawingPanel() {
+        initPanel();
+        initKeyListener();
+        initMouseListener();
+    }
+
+    private void initPanel() {
         setBackground(Color.WHITE); // 흰색 배경
         setFocusable(true);
+        // 삭제 키 이벤트 수신을 위해 포커스 요청 추가
+        addHierarchyListener(e -> {
+            if (isShowing()) {
+                requestFocusInWindow();
+            }
+        });
+    }
 
+    private void initKeyListener() {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -41,14 +54,9 @@ public class DrawingPanel extends JPanel {
                 }
             }
         });
+    }
 
-        // 삭제 키 이벤트 수신을 위해 포커스 요청 추가
-        addHierarchyListener(e -> {
-            if (isShowing()) {
-                requestFocusInWindow();
-            }
-        });
-
+    private void initMouseListener() {
         MouseAdapter mouseHandler = new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 requestFocusInWindow();
@@ -175,7 +183,6 @@ public class DrawingPanel extends JPanel {
     public void addShapeSelectedListener(ShapeSelectedListener listener) {
         this.shapeSelectedListener = listener;
     }
-
 
     public void selectAll() {
         selectedShapes.clear();

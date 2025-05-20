@@ -45,7 +45,7 @@ public class RectangleShape implements DrawableShape {
         g2d.drawRect(x, y, width, height);
 
         if (selected) {
-            g2d.setColor(new Color(0, 120, 215)); // 파란 테두리
+            g2d.setColor(new Color(0, 120, 215)); // selection box 표시
             g2d.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND,
                     1f, new float[]{5f, 5f}, 0)); // 점선
             g2d.drawRect(x - handleSize / 2, y - handleSize / 2, width + handleSize, height + handleSize); // 선택 상자 그리기 (약간 크게)
