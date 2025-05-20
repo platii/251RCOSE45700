@@ -36,6 +36,7 @@ public class DrawingFrame extends JFrame {
         DrawingToolBar toolBar = new DrawingToolBar(drawingPanel);
         toolBar.setBackground(new Color(60, 60, 60));
         toolBar.setPreferredSize(new Dimension(1000, 50));
+        int a = 7;
 
         // 배치
         mainPanel.add(toolBar, BorderLayout.NORTH);
