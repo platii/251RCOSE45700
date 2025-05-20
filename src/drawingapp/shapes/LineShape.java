@@ -3,7 +3,6 @@ package drawingapp.shapes;
 import drawingapp.ResizeHandle;
 
 import java.awt.*;
-import java.awt.geom.Line2D;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,10 +55,10 @@ public class LineShape implements DrawableShape {
     public Map<ResizeHandle, Rectangle> getHandleBounds() {     // 사용x
         int halfSize = handleSize / 2;
         Map<ResizeHandle, Rectangle> map = new HashMap<>();
-        map.put(ResizeHandle.TOP_LEFT, new Rectangle(x1 - halfSize, y1 - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.TOP_RIGHT, new Rectangle(x1 + x2 - halfSize, y1 - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.BOTTOM_LEFT, new Rectangle(x1 - halfSize, y1 + y2 - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.BOTTOM_RIGHT, new Rectangle(x1 + x2 - halfSize, y1 + y2 - halfSize, handleSize, handleSize));
+        map.put(TOP_LEFT, new Rectangle(x1 - halfSize, y1 - halfSize, handleSize, handleSize));
+        map.put(TOP_RIGHT, new Rectangle(x1 + x2 - halfSize, y1 - halfSize, handleSize, handleSize));
+        map.put(BOTTOM_LEFT, new Rectangle(x1 - halfSize, y1 + y2 - halfSize, handleSize, handleSize));
+        map.put(BOTTOM_RIGHT, new Rectangle(x1 + x2 - halfSize, y1 + y2 - halfSize, handleSize, handleSize));
         return map;
     }
 

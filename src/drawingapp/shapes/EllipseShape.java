@@ -3,7 +3,6 @@ package drawingapp.shapes;
 import drawingapp.ResizeHandle;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,14 +55,14 @@ public class EllipseShape implements DrawableShape {
     public Map<ResizeHandle, Rectangle> getHandleBounds() {
         int halfSize = handleSize / 2;
         Map<ResizeHandle, Rectangle> map = new HashMap<>();
-        map.put(ResizeHandle.TOP, new Rectangle(x + width / 2 - halfSize , y - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.BOTTOM, new Rectangle(x + width / 2 - halfSize , y + height - halfSize , handleSize, handleSize));
-        map.put(ResizeHandle.LEFT, new Rectangle(x - halfSize, y + height / 2 - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.RIGHT, new Rectangle(x + width - halfSize, y + height / 2 - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.TOP_LEFT, new Rectangle(x - halfSize, y - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.TOP_RIGHT, new Rectangle(x + width - halfSize, y - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.BOTTOM_LEFT, new Rectangle(x - halfSize, y + height - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.BOTTOM_RIGHT, new Rectangle(x + width - halfSize, y + height - halfSize, handleSize, handleSize));
+        map.put(TOP, new Rectangle(x + width / 2 - halfSize , y - halfSize, handleSize, handleSize));
+        map.put(BOTTOM, new Rectangle(x + width / 2 - halfSize , y + height - halfSize , handleSize, handleSize));
+        map.put(LEFT, new Rectangle(x - halfSize, y + height / 2 - halfSize, handleSize, handleSize));
+        map.put(RIGHT, new Rectangle(x + width - halfSize, y + height / 2 - halfSize, handleSize, handleSize));
+        map.put(TOP_LEFT, new Rectangle(x - halfSize, y - halfSize, handleSize, handleSize));
+        map.put(TOP_RIGHT, new Rectangle(x + width - halfSize, y - halfSize, handleSize, handleSize));
+        map.put(BOTTOM_LEFT, new Rectangle(x - halfSize, y + height - halfSize, handleSize, handleSize));
+        map.put(BOTTOM_RIGHT, new Rectangle(x + width - halfSize, y + height - halfSize, handleSize, handleSize));
         return map;
     }
 
