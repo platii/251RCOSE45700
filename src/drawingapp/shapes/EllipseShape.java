@@ -25,16 +25,6 @@ public class EllipseShape implements DrawableShape {
         this.color = color;
     }
 
-    public static EllipseShape fromXYWH(int x, int y, int width, int height, Color color) {
-        EllipseShape e = new EllipseShape(0, 0, 0, 0, color);
-        e.x = x;
-        e.y = y;
-        e.width = width;
-        e.height = height;
-        e.color = color;
-        return e;
-    }
-
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;

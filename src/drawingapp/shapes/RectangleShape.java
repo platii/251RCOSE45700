@@ -25,16 +25,6 @@ public class RectangleShape implements DrawableShape {
         this.color = color;
     }
 
-    public static RectangleShape fromXYWH(int x, int y, int width, int height, Color color) {
-        RectangleShape r = new RectangleShape(0, 0, 0, 0, color);
-        r.x = x;
-        r.y = y;
-        r.width = width;
-        r.height = height;
-        r.color = color;
-        return r;
-    }
-
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
