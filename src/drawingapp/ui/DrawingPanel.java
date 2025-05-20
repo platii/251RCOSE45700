@@ -1,12 +1,9 @@
-// Z-order 조절 기능을 위한 DrawingPanel.java 수정 예시
-
 package drawingapp.ui;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import drawingapp.ResizeHandle;
