@@ -3,8 +3,6 @@ package drawingapp.shapes;
 import drawingapp.ResizeHandle;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,16 +23,6 @@ public class RectangleShape implements DrawableShape {
         this.color = color;
     }
 
-    public static RectangleShape fromXYWH(int x, int y, int width, int height, Color color) {
-        RectangleShape r = new RectangleShape(0, 0, 0, 0, color);
-        r.x = x;
-        r.y = y;
-        r.width = width;
-        r.height = height;
-        r.color = color;
-        return r;
-    }
-
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -45,7 +33,7 @@ public class RectangleShape implements DrawableShape {
         g2d.drawRect(x, y, width, height);
 
         if (selected) {
-            g2d.setColor(new Color(0, 120, 215)); // 파란 테두리
+            g2d.setColor(new Color(0, 120, 215)); // selection box 표시
             g2d.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND,
                     1f, new float[]{5f, 5f}, 0)); // 점선
             g2d.drawRect(x - handleSize / 2, y - handleSize / 2, width + handleSize, height + handleSize); // 선택 상자 그리기 (약간 크게)
@@ -66,14 +54,14 @@ public class RectangleShape implements DrawableShape {
     public Map<ResizeHandle, Rectangle> getHandleBounds() {
         int halfSize = handleSize / 2;
         Map<ResizeHandle, Rectangle> map = new HashMap<>();
-        map.put(ResizeHandle.TOP, new Rectangle(x + width / 2 - halfSize , y - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.BOTTOM, new Rectangle(x + width / 2 - halfSize , y + height - halfSize , handleSize, handleSize));
-        map.put(ResizeHandle.LEFT, new Rectangle(x - halfSize, y + height / 2 - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.RIGHT, new Rectangle(x + width - halfSize, y + height / 2 - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.TOP_LEFT, new Rectangle(x - halfSize, y - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.TOP_RIGHT, new Rectangle(x + width - halfSize, y - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.BOTTOM_LEFT, new Rectangle(x - halfSize, y + height - halfSize, handleSize, handleSize));
-        map.put(ResizeHandle.BOTTOM_RIGHT, new Rectangle(x + width - halfSize, y + height - halfSize, handleSize, handleSize));
+        map.put(TOP, new Rectangle(x + width / 2 - halfSize , y - halfSize, handleSize, handleSize));
+        map.put(BOTTOM, new Rectangle(x + width / 2 - halfSize , y + height - halfSize , handleSize, handleSize));
+        map.put(LEFT, new Rectangle(x - halfSize, y + height / 2 - halfSize, handleSize, handleSize));
+        map.put(RIGHT, new Rectangle(x + width - halfSize, y + height / 2 - halfSize, handleSize, handleSize));
+        map.put(TOP_LEFT, new Rectangle(x - halfSize, y - halfSize, handleSize, handleSize));
+        map.put(TOP_RIGHT, new Rectangle(x + width - halfSize, y - halfSize, handleSize, handleSize));
+        map.put(BOTTOM_LEFT, new Rectangle(x - halfSize, y + height - halfSize, handleSize, handleSize));
+        map.put(BOTTOM_RIGHT, new Rectangle(x + width - halfSize, y + height - halfSize, handleSize, handleSize));
         return map;
     }
 

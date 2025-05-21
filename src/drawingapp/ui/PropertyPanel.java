@@ -4,16 +4,15 @@ package drawingapp.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import drawingapp.ShapeSelectedListener;
 import drawingapp.shapes.DrawableShape;
 
 public class PropertyPanel extends JPanel {
-    private final JLabel typeLabel;
-    private final JLabel positionLabel;
-    private final JTextField widthField, heightField;
-    private final JColorChooser colorChooser;
-    private final DrawingPanel drawingPanel;
+    private JLabel typeLabel;
+    private JLabel positionLabel;
+    private JTextField widthField, heightField;
+    private JColorChooser colorChooser;
+    public DrawingPanel drawingPanel;
 
     public PropertyPanel(DrawingPanel drawingPanel) {
         this.drawingPanel = drawingPanel;
@@ -21,6 +20,14 @@ public class PropertyPanel extends JPanel {
         this.setPreferredSize(new Dimension(250, 600));
         this.setBackground(new Color(240, 240, 240));
 
+        initLabel();
+
+        // 도형 선택 리스너 등록
+        initListener();
+
+    }
+
+    private void initLabel() {
         // 도형 타입
         typeLabel = new JLabel(" ");
         typeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -51,8 +58,9 @@ public class PropertyPanel extends JPanel {
         colorChooser.setPreviewPanel(new JPanel()); // 간단화
         colorChooser.setMaximumSize(new Dimension(240, 300));
         this.add(colorChooser);
+    }
 
-        // 도형 선택 리스너 등록
+    private void initListener() {
         drawingPanel.addShapeSelectedListener(new ShapeSelectedListener() {
             @Override
             public void onShapeSelected(DrawableShape shape) {
@@ -106,6 +114,6 @@ public class PropertyPanel extends JPanel {
 
         widthField.setText(String.valueOf(shape.getWidth()));
         heightField.setText(String.valueOf(shape.getHeight()));
-       // colorChooser.setColor(shape.getColor());
     }
+
 }

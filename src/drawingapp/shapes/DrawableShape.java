@@ -3,7 +3,6 @@ package drawingapp.shapes;
 import drawingapp.ResizeHandle;
 
 import java.awt.*;
-import java.util.List;
 import java.util.Map;
 
 public interface DrawableShape {
