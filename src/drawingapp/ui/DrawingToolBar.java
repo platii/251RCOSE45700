@@ -5,15 +5,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import drawingapp.ShapeType;
+import drawingapp.controller.ShapeController;
 
 public class DrawingToolBar extends JPanel {
-    public DrawingPanel drawingPanel;
+    DrawingPanel drawingPanel;
+    ShapeController controller;
 
-    public DrawingToolBar(DrawingPanel drawingPanel) {
+    public DrawingToolBar(DrawingPanel drawingPanel, ShapeController controller) {
         this.drawingPanel = drawingPanel;
+        this.controller = controller;
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         initBtn();
     }
+
 
     private void initBtn() {
         JButton selectBtn = new JButton("선택");
@@ -26,24 +30,24 @@ public class DrawingToolBar extends JPanel {
         JButton sendToBackBtn = new JButton("아래로");
 
         // 도형 유형 변경
-        selectBtn.addActionListener(e -> drawingPanel.setShapeType(ShapeType.SELECT));
-        rectBtn.addActionListener(e -> drawingPanel.setShapeType(ShapeType.RECTANGLE));
-        lineBtn.addActionListener(e -> drawingPanel.setShapeType(ShapeType.LINE));
-        ellipseBtn.addActionListener(e -> drawingPanel.setShapeType(ShapeType.ELLIPSE));
+        selectBtn.addActionListener(e -> controller.changeType(ShapeType.SELECT));
+        rectBtn.addActionListener(e -> controller.changeType(ShapeType.RECTANGLE));
+        lineBtn.addActionListener(e -> controller.changeType(ShapeType.LINE));
+        ellipseBtn.addActionListener(e -> controller.changeType(ShapeType.ELLIPSE));
 
         // 전체 선택
         selectAllBtn.addActionListener((ActionEvent e) -> drawingPanel.selectAll());
-        selectAllBtn.addActionListener(e -> drawingPanel.setShapeType(ShapeType.SELECT));
+        selectAllBtn.addActionListener(e -> controller.changeType(ShapeType.SELECT));
 
         // 삭제
         deleteBtn.addActionListener((ActionEvent e) -> drawingPanel.deleteShape());
-        deleteBtn.addActionListener(e -> drawingPanel.setShapeType(ShapeType.SELECT));
+        deleteBtn.addActionListener(e -> controller.changeType(ShapeType.SELECT));
 
         //z-index 변경
-        bringToFrontBtn.addActionListener(e -> drawingPanel.bringToFront());
-        bringToFrontBtn.addActionListener(e -> drawingPanel.setShapeType(ShapeType.SELECT));
-        sendToBackBtn.addActionListener(e -> drawingPanel.sendToBack());
-        sendToBackBtn.addActionListener(e -> drawingPanel.setShapeType(ShapeType.SELECT));
+        bringToFrontBtn.addActionListener(e -> controller.bringToFront());
+        bringToFrontBtn.addActionListener(e -> controller.changeType(ShapeType.SELECT));
+        sendToBackBtn.addActionListener(e -> controller.sendToBack());
+        sendToBackBtn.addActionListener(e -> controller.changeType(ShapeType.SELECT));
 
         this.add(selectBtn);
         this.add(rectBtn);

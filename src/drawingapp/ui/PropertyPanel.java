@@ -5,6 +5,7 @@ package drawingapp.ui;
 import javax.swing.*;
 import java.awt.*;
 import drawingapp.ShapeSelectedListener;
+import drawingapp.controller.ShapeController;
 import drawingapp.shapes.DrawableShape;
 
 public class PropertyPanel extends JPanel {
@@ -13,8 +14,10 @@ public class PropertyPanel extends JPanel {
     private JTextField widthField, heightField;
     private JColorChooser colorChooser;
     public DrawingPanel drawingPanel;
+    ShapeController controller;
 
-    public PropertyPanel(DrawingPanel drawingPanel) {
+    public PropertyPanel(DrawingPanel drawingPanel, ShapeController controller) {
+        this.controller = controller;
         this.drawingPanel = drawingPanel;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setPreferredSize(new Dimension(250, 600));
@@ -72,19 +75,19 @@ public class PropertyPanel extends JPanel {
     private void updateWidth() {
         try {
             int width = Integer.parseInt(widthField.getText());
-            drawingPanel.updateWidth(width);
+            controller.updateWidth(width);
         } catch (NumberFormatException ignored) {}
     }
 
     private void updateHeight() {
         try {
             int height = Integer.parseInt(heightField.getText());
-            drawingPanel.updateHeight(height);
+            controller.updateHeight(height);
         } catch (NumberFormatException ignored) {}
     }
 
     private void updateColor() {
-        drawingPanel.updateColor(colorChooser.getColor());
+        controller.updateColor(colorChooser.getColor());
     }
 
     public void updateProperties(DrawableShape shape) {

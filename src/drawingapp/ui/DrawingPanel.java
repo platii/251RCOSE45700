@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import drawingapp.DrawObserver;
 import drawingapp.ResizeHandle;
 import drawingapp.ShapeType;
 import drawingapp.ShapeSelectedListener;
@@ -13,7 +14,7 @@ import drawingapp.shapes.*;
 
 import static drawingapp.ResizeHandle.NONE;
 
-public class DrawingPanel extends JPanel {
+public class DrawingPanel extends JPanel implements DrawObserver {
     private final ArrayList<DrawableShape> shapes = new ArrayList<>();
     private final ArrayList<DrawableShape> selectedShapes = new ArrayList<>();
     private ShapeType currentShapeType = ShapeType.RECTANGLE;
@@ -23,8 +24,10 @@ public class DrawingPanel extends JPanel {
     private Color selectedColor = Color.BLACK;
     private ResizeHandle selectedResizeHandler = NONE;
     private boolean clickedAny = false;
+    ShapeManager model;
 
-    public DrawingPanel() {
+    public DrawingPanel(ShapeManager model) {
+        this.model = model;
         initPanel();
         initKeyListener();
         initMouseListener();
@@ -176,9 +179,6 @@ public class DrawingPanel extends JPanel {
         addMouseMotionListener(mouseHandler);
     }
 
-    public void setShapeType(ShapeType type) {
-        currentShapeType = type;
-    }
 
     public void addShapeSelectedListener(ShapeSelectedListener listener) {
         this.shapeSelectedListener = listener;
@@ -196,56 +196,6 @@ public class DrawingPanel extends JPanel {
         repaint();
     }
 
-    public void updateWidth(int width) {
-        for (DrawableShape shape : selectedShapes) {
-            shape.setWidth(width);
-        }
-        repaint();
-    }
-
-    public void updateHeight(int height) {
-        for (DrawableShape shape : selectedShapes) {
-            shape.setHeight(height);
-        }
-        repaint();
-    }
-
-    public void updateColor(Color color) {
-        if (!selectedShapes.isEmpty()) {
-            selectedColor = color;
-            for (DrawableShape shape : selectedShapes) {
-                shape.setColor(selectedColor);
-            }
-        } else {
-            selectedColor = color;
-        }
-        repaint();
-    }
-
-    public void bringToFront() {
-        if (selectedShapes.isEmpty()) return;
-
-        for (DrawableShape shape : selectedShapes) {
-            int index = shapes.indexOf(shape);
-            if (index < shapes.size() - 1){
-                Collections.swap(shapes, index, index+1);
-            }
-        }
-        repaint();
-    }
-
-    public void sendToBack() {
-        if (selectedShapes.isEmpty()) return;
-
-        for (DrawableShape shape : selectedShapes) {
-            int index = shapes.indexOf(shape);
-            if (index > 0) {
-                Collections.swap(shapes, index, index - 1);
-            }
-        }
-        repaint();
-    }
-
     public void deleteShape() {
         for (DrawableShape shape : selectedShapes) {
             shapes.remove(shape);
@@ -259,9 +209,14 @@ public class DrawingPanel extends JPanel {
     }
 
     @Override
+    public void updateCanvas() {
+        repaint();
+    }
+
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for (DrawableShape shape : shapes) {
+        for (DrawableShape shape : model.getShapes()) {
             shape.draw(g);
         }
     }
