@@ -1,5 +1,6 @@
 drawingapp
 
+
 개선 목록
 1. 모델 뷰 컨트롤러 분리하기
  shape manager 만들어서 shape 리스트 관리
@@ -11,3 +12,4 @@ drawingapp
 3. command 패턴 구현
 
 4. 이후 시간 남으면 state, composite 패턴 구현
+
