@@ -1,13 +1,15 @@
 package drawingapp.shapes;
 
-import drawingapp.DrawObserver;
+import drawingapp.*;
 import drawingapp.Observable;
-import drawingapp.PropertyObserver;
-import drawingapp.ShapeType;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.*;
 import java.util.List;
+
+import static drawingapp.ResizeHandle.*;
+import static drawingapp.ShapeType.*;
 
 public class ShapeManager implements Observable {
     List<PropertyObserver> propertyObservers = new ArrayList<>();
@@ -16,6 +18,9 @@ public class ShapeManager implements Observable {
     List<DrawableShape> selectedShapes = new ArrayList<>();
     ShapeType shapeType = ShapeType.SELECT;
     Color selectedColor = Color.BLACK;
+    boolean clickedAny = false;
+    int startX, startY, prevMouseX, prevMouseY;
+    ResizeHandle selectedResizeHandler = NONE;
 
     public void setShapeType(ShapeType shapeType) {
         this.shapeType = shapeType;
@@ -23,6 +28,130 @@ public class ShapeManager implements Observable {
 
     public List<DrawableShape> getShapes() {
         return shapes;
+    }
+
+    public List<DrawableShape> getSelectedShapes() {
+        return selectedShapes;
+    }
+
+    public void pressDelete(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+            shapes.removeAll(selectedShapes);
+            selectedShapes.clear();
+            //if (shapeSelectedListener != null) shapeSelectedListener.onShapeSelected(null);
+            notifyPropertyObservers();
+            notifyDrawObservers();
+        }
+    }
+
+    public void downClick(int x, int y, boolean shiftPressed) {
+        startX = x;
+        startY = y;
+        if (clickedAny && !selectedShapes.isEmpty()) {      // resize handler 눌렀는지 확인
+            for (DrawableShape shape : selectedShapes) {
+                selectedResizeHandler = shape.resizeContains(startX, startY);
+                if (selectedResizeHandler != NONE) break;
+            }
+        }
+
+        if (selectedResizeHandler == NONE) {                // resize handler 안 눌렀을 때
+            for (int i = shapes.size() - 1; i >= 0; i--) {
+                DrawableShape shape = shapes.get(i);
+                clickedAny = false;
+                if (shape.contains(startX, startY)) { // 도형 클릭
+                    clickedAny = true;
+                    if (shiftPressed) {
+                        if (selectedShapes.contains(shape)) {
+                            selectedShapes.remove(shape);
+                            shape.setSelected(false);
+                        } else {
+                            selectedShapes.add(shape);
+                            shape.setSelected(true);
+                        }
+                    } else {
+                        for (DrawableShape s : selectedShapes)
+                            s.setSelected(false); // 기존 선택된 개체들 선택 여부 false로 바꾸기
+                        selectedShapes.clear();  // shift 없이 다른 객체 클릭 시 selectedShapes 비우기
+                        selectedShapes.add(shape);
+                        shape.setSelected(true);
+                    }
+
+                    //if (shapeSelectedListener != null)
+                    //   shapeSelectedListener.onShapeSelected(shape);
+                    notifyPropertyObservers();
+                    break;
+                }
+            }
+        }
+
+        if (!clickedAny && !shiftPressed) {     //마우스 눌렀는데 도형 선택도 안하고 shift도 안 누르면
+            for (DrawableShape s : selectedShapes) s.setSelected(false);
+            selectedShapes.clear();
+            selectedResizeHandler = NONE;
+            //if (shapeSelectedListener != null)
+            //   shapeSelectedListener.onShapeSelected(null);
+            notifyPropertyObservers();
+        }
+
+        prevMouseX = startX;
+        prevMouseY = startY;
+
+        notifyDrawObservers();
+    }
+
+    public void drag(int x, int y) {
+        if (!selectedShapes.isEmpty() && selectedResizeHandler == NONE) {
+            int dx = x - prevMouseX;
+            int dy = y - prevMouseY;
+            for (DrawableShape shape : selectedShapes) {
+                shape.moveBy(dx, dy);
+                notifyPropertyObservers();
+                //if (shapeSelectedListener != null) {        //속성창 실시간 업데이트
+                //    shapeSelectedListener.onShapeSelected(shape);
+            }
+        }
+        prevMouseX = x;
+        prevMouseY = y;
+        notifyDrawObservers();
+
+
+        if (!selectedShapes.isEmpty() && selectedResizeHandler != NONE) {
+            int dx = x - prevMouseX;
+            int dy = y - prevMouseY;
+            for (DrawableShape shape : selectedShapes) {
+                shape.resize(dx, dy, selectedResizeHandler);
+                notifyPropertyObservers();
+                //if (shapeSelectedListener != null) {        //속성창 실시간 업데이트
+                //    shapeSelectedListener.onShapeSelected(shape);
+            }
+        }
+        prevMouseX = x;
+        prevMouseY = y;
+        notifyDrawObservers();
+    }
+
+    public void upClick(int x, int y) {
+        if (selectedShapes.isEmpty()) {  //선택된 도형 없으면
+            DrawableShape shape = null;
+            switch (shapeType) {
+                case RECTANGLE:
+                    shape = new RectangleShape(startX, startY, x, y, selectedColor);
+                    break;
+                case LINE:
+                    shape = new LineShape(startX, startY, x, y, selectedColor);
+                    break;
+                case ELLIPSE:
+                    shape = new EllipseShape(startX, startY, x, y, selectedColor);
+                    break;
+            }
+            if (shape != null) {
+                shapes.add(shape);
+                notifyPropertyObservers();
+                //if (shapeSelectedListener != null)
+                //    shapeSelectedListener.onShapeSelected(shape);
+            }
+        }
+        notifyDrawObservers();
     }
 
     public void updateWidth(int width) {
@@ -50,6 +179,26 @@ public class ShapeManager implements Observable {
         } else {
             selectedColor = color;      // 앞으로 생성할 도형의 색 변경
         }
+        notifyDrawObservers();
+    }
+
+    public void selectAll() {
+        selectedShapes.clear();
+        for (DrawableShape shape : shapes) {
+            shape.setSelected(true);
+            selectedShapes.add(shape);
+        }
+        notifyPropertyObservers();
+        notifyDrawObservers();
+    }
+
+    public void deleteShape() {
+        for (DrawableShape shape : selectedShapes) {
+            shapes.remove(shape);
+        }
+        selectedShapes.clear();
+
+        notifyPropertyObservers();
         notifyDrawObservers();
     }
 

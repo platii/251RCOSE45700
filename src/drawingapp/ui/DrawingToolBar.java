@@ -8,11 +8,9 @@ import drawingapp.ShapeType;
 import drawingapp.controller.ShapeController;
 
 public class DrawingToolBar extends JPanel {
-    DrawingPanel drawingPanel;
     ShapeController controller;
 
-    public DrawingToolBar(DrawingPanel drawingPanel, ShapeController controller) {
-        this.drawingPanel = drawingPanel;
+    public DrawingToolBar(ShapeController controller) {
         this.controller = controller;
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         initBtn();
@@ -36,11 +34,11 @@ public class DrawingToolBar extends JPanel {
         ellipseBtn.addActionListener(e -> controller.changeType(ShapeType.ELLIPSE));
 
         // 전체 선택
-        selectAllBtn.addActionListener((ActionEvent e) -> drawingPanel.selectAll());
+        selectAllBtn.addActionListener((ActionEvent e) -> controller.selectAll());
         selectAllBtn.addActionListener(e -> controller.changeType(ShapeType.SELECT));
 
         // 삭제
-        deleteBtn.addActionListener((ActionEvent e) -> drawingPanel.deleteShape());
+        deleteBtn.addActionListener((ActionEvent e) -> controller.deleteShape());
         deleteBtn.addActionListener(e -> controller.changeType(ShapeType.SELECT));
 
         //z-index 변경
