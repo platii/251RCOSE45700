@@ -7,7 +7,6 @@ import java.awt.*;
 import java.util.List;
 
 import drawingapp.PropertyObserver;
-import drawingapp.ShapeSelectedListener;
 import drawingapp.controller.ShapeController;
 import drawingapp.shapes.DrawableShape;
 import drawingapp.shapes.ShapeManager;
@@ -68,15 +67,6 @@ public class PropertyPanel extends JPanel implements PropertyObserver {
         this.add(colorChooser);
     }
 
-//    private void initListener() {
-//        drawingPanel.addShapeSelectedListener(new ShapeSelectedListener() {
-//            @Override
-//            public void onShapeSelected(DrawableShape shape) {
-//                updateProperties(shape);
-//            }
-//        });
-//    }
-
     private void updateWidth() {
         try {
             int width = Integer.parseInt(widthField.getText());
@@ -97,8 +87,7 @@ public class PropertyPanel extends JPanel implements PropertyObserver {
 
     public void updateProperties() {
         List<DrawableShape> shapes = model.getSelectedShapes();
-        DrawableShape shape = shapes.get(0);
-        if (shape == null) {
+        if (shapes.isEmpty()) {
             typeLabel.setText(" ");
             positionLabel.setText(" ");
             widthField.setText("");
@@ -106,6 +95,7 @@ public class PropertyPanel extends JPanel implements PropertyObserver {
             return;
         }
 
+        DrawableShape shape = shapes.get(0);
         // 도형 타입명
         typeLabel.setText("Type: " + shape.getClass().getSimpleName());
 

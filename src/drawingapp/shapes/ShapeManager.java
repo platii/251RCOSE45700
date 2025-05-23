@@ -75,9 +75,6 @@ public class ShapeManager implements Observable {
                         selectedShapes.add(shape);
                         shape.setSelected(true);
                     }
-
-                    //if (shapeSelectedListener != null)
-                    //   shapeSelectedListener.onShapeSelected(shape);
                     notifyPropertyObservers();
                     break;
                 }
@@ -88,8 +85,6 @@ public class ShapeManager implements Observable {
             for (DrawableShape s : selectedShapes) s.setSelected(false);
             selectedShapes.clear();
             selectedResizeHandler = NONE;
-            //if (shapeSelectedListener != null)
-            //   shapeSelectedListener.onShapeSelected(null);
             notifyPropertyObservers();
         }
 
@@ -106,13 +101,11 @@ public class ShapeManager implements Observable {
             for (DrawableShape shape : selectedShapes) {
                 shape.moveBy(dx, dy);
                 notifyPropertyObservers();
-                //if (shapeSelectedListener != null) {        //속성창 실시간 업데이트
-                //    shapeSelectedListener.onShapeSelected(shape);
             }
+            prevMouseX = x;
+            prevMouseY = y;
+            notifyDrawObservers();
         }
-        prevMouseX = x;
-        prevMouseY = y;
-        notifyDrawObservers();
 
 
         if (!selectedShapes.isEmpty() && selectedResizeHandler != NONE) {
@@ -121,13 +114,11 @@ public class ShapeManager implements Observable {
             for (DrawableShape shape : selectedShapes) {
                 shape.resize(dx, dy, selectedResizeHandler);
                 notifyPropertyObservers();
-                //if (shapeSelectedListener != null) {        //속성창 실시간 업데이트
-                //    shapeSelectedListener.onShapeSelected(shape);
             }
+            prevMouseX = x;
+            prevMouseY = y;
+            notifyDrawObservers();
         }
-        prevMouseX = x;
-        prevMouseY = y;
-        notifyDrawObservers();
     }
 
     public void upClick(int x, int y) {
@@ -147,8 +138,7 @@ public class ShapeManager implements Observable {
             if (shape != null) {
                 shapes.add(shape);
                 notifyPropertyObservers();
-                //if (shapeSelectedListener != null)
-                //    shapeSelectedListener.onShapeSelected(shape);
+                notifyDrawObservers();
             }
         }
         notifyDrawObservers();

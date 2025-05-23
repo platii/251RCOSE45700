@@ -2,8 +2,6 @@ package drawingapp.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import drawingapp.ShapeSelectedListener;
-import drawingapp.shapes.DrawableShape;
 
 public class DrawingFrame extends JFrame {
     public DrawingPanel drawingPanel;
