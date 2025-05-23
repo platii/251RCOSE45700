@@ -2,8 +2,6 @@ package drawingapp.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import drawingapp.ShapeSelectedListener;
-import drawingapp.shapes.DrawableShape;
 
 public class DrawingFrame extends JFrame {
     public DrawingPanel drawingPanel;
@@ -25,7 +23,7 @@ public class DrawingFrame extends JFrame {
         initDrawingPanel();
 
         // 도형 선택 시 PropertyPanel 업데이트 연결
-        initListener();
+        //initListener();
 
         // 툴바
         initToolBar();
@@ -64,12 +62,12 @@ public class DrawingFrame extends JFrame {
         toolBar.setPreferredSize(new Dimension(1000, 50));
     }
 
-    private void initListener() {
-        drawingPanel.addShapeSelectedListener(new ShapeSelectedListener() {
-            @Override
-            public void onShapeSelected(DrawableShape shape) {
-                propertyPanel.updateProperties(shape);
-            }
-        });
-    }
+//    private void initListener() {
+//        drawingPanel.addShapeSelectedListener(new ShapeSelectedListener() {
+//            @Override
+//            public void onShapeSelected(DrawableShape shape) {
+//                propertyPanel.updateProperties(shape);
+//            }
+//        });
+//    }
 }

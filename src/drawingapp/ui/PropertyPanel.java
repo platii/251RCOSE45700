@@ -4,18 +4,25 @@ package drawingapp.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import drawingapp.ShapeSelectedListener;
-import drawingapp.shapes.DrawableShape;
+import java.util.List;
 
-public class PropertyPanel extends JPanel {
+import drawingapp.PropertyObserver;
+import drawingapp.controller.ShapeController;
+import drawingapp.shapes.DrawableShape;
+import drawingapp.shapes.ShapeManager;
+
+public class PropertyPanel extends JPanel implements PropertyObserver {
     private JLabel typeLabel;
     private JLabel positionLabel;
     private JTextField widthField, heightField;
     private JColorChooser colorChooser;
-    public DrawingPanel drawingPanel;
+    ShapeController controller;
+    ShapeManager model;
 
-    public PropertyPanel(DrawingPanel drawingPanel) {
-        this.drawingPanel = drawingPanel;
+    public PropertyPanel(ShapeManager model, ShapeController controller) {
+        this.controller = controller;
+        this.model = model;
+        model.registerObserver(this);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setPreferredSize(new Dimension(250, 600));
         this.setBackground(new Color(240, 240, 240));
@@ -23,7 +30,7 @@ public class PropertyPanel extends JPanel {
         initLabel();
 
         // 도형 선택 리스너 등록
-        initListener();
+        //initListener();
 
     }
 
@@ -60,43 +67,35 @@ public class PropertyPanel extends JPanel {
         this.add(colorChooser);
     }
 
-    private void initListener() {
-        drawingPanel.addShapeSelectedListener(new ShapeSelectedListener() {
-            @Override
-            public void onShapeSelected(DrawableShape shape) {
-                updateProperties(shape);
-            }
-        });
-    }
-
     private void updateWidth() {
         try {
             int width = Integer.parseInt(widthField.getText());
-            drawingPanel.updateWidth(width);
+            controller.updateWidth(width);
         } catch (NumberFormatException ignored) {}
     }
 
     private void updateHeight() {
         try {
             int height = Integer.parseInt(heightField.getText());
-            drawingPanel.updateHeight(height);
+            controller.updateHeight(height);
         } catch (NumberFormatException ignored) {}
     }
 
     private void updateColor() {
-        drawingPanel.updateColor(colorChooser.getColor());
+        controller.updateColor(colorChooser.getColor());
     }
 
-    public void updateProperties(DrawableShape shape) {
-        if (shape == null) {
+    public void updateProperties() {
+        List<DrawableShape> shapes = model.getSelectedShapes();
+        if (shapes.isEmpty()) {
             typeLabel.setText(" ");
             positionLabel.setText(" ");
             widthField.setText("");
             heightField.setText("");
-            //colorChooser.setColor(selectedColor);
             return;
         }
 
+        DrawableShape shape = shapes.get(0);
         // 도형 타입명
         typeLabel.setText("Type: " + shape.getClass().getSimpleName());
 
