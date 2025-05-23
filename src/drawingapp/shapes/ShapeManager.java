@@ -9,7 +9,6 @@ import java.util.*;
 import java.util.List;
 
 import static drawingapp.ResizeHandle.*;
-import static drawingapp.ShapeType.*;
 
 public class ShapeManager implements Observable {
     List<PropertyObserver> propertyObservers = new ArrayList<>();
@@ -21,6 +20,11 @@ public class ShapeManager implements Observable {
     boolean clickedAny = false;
     int startX, startY, prevMouseX, prevMouseY;
     ResizeHandle selectedResizeHandler = NONE;
+    ShapeFactory shapeFactory;
+
+    public ShapeManager() {
+        shapeFactory = new ShapeFactory();
+    }
 
     public void setShapeType(ShapeType shapeType) {
         this.shapeType = shapeType;
@@ -123,18 +127,7 @@ public class ShapeManager implements Observable {
 
     public void upClick(int x, int y) {
         if (selectedShapes.isEmpty()) {  //선택된 도형 없으면
-            DrawableShape shape = null;
-            switch (shapeType) {
-                case RECTANGLE:
-                    shape = new RectangleShape(startX, startY, x, y, selectedColor);
-                    break;
-                case LINE:
-                    shape = new LineShape(startX, startY, x, y, selectedColor);
-                    break;
-                case ELLIPSE:
-                    shape = new EllipseShape(startX, startY, x, y, selectedColor);
-                    break;
-            }
+            DrawableShape shape = shapeFactory.createShape(shapeType, startX, startY, x, y, selectedColor);
             if (shape != null) {
                 shapes.add(shape);
                 notifyPropertyObservers();
