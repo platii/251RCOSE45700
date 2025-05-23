@@ -1,6 +1,15 @@
 drawingapp
 
-차후 개선 목표 및 우선순위
-1. model과 view 분리
-2. command패턴 구현
-3. observer패턴(현재는 단순히 콜백함수인 상태) 학습 후 재 구현
+
+개선 목록
+1. 모델 뷰 컨트롤러 분리하기
+ shape manager 만들어서 shape 리스트 관리
+ draw는 뷰의 역할
+
+2. observer 패턴 구현
+ Observable, Observer 인터페이스 구현
+
+3. command 패턴 구현
+
+4. 이후 시간 남으면 state, composite 패턴 구현
+
