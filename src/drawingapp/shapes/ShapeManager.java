@@ -30,8 +30,22 @@ public class ShapeManager implements Observable {
         this.shapeType = shapeType;
     }
 
-    public ShapeType getShapeType() {
-        return shapeType;
+    public void setShapes(List<DrawableShape> shapes) {
+        this.shapes = shapes;
+        notifyDrawObservers();
+        notifyPropertyObservers();
+    }
+
+    public void setSelectedShapes(List<DrawableShape> shapes) {
+        this.selectedShapes = shapes;
+    }
+
+    public void addShapes(List<DrawableShape> shapes) {
+        this.shapes.addAll(shapes);
+    }
+
+    public void addSelectedShapes(List<DrawableShape> shapes) {
+        selectedShapes.addAll(shapes);
     }
 
     public List<DrawableShape> getShapes() {

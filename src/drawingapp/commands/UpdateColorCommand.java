@@ -1,27 +1,30 @@
 package drawingapp.commands;
 
-import java.util.*;
 import drawingapp.shapes.DrawableShape;
 import drawingapp.shapes.ShapeManager;
-// 속성창에서 width 변경하는 명령
-public class UpdateWidthCommand implements Command{
-    ShapeManager model;
-    List<DrawableShape> prevShapes;
-    int[] prevWidth;
-    int width;
 
-    public UpdateWidthCommand(ShapeManager model, int width) {
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+
+public class UpdateColorCommand implements Command{
+    ShapeManager model;
+    Color color;
+    List<DrawableShape> prevShapes;
+    List<Color> prevColors = new ArrayList<>();
+
+
+    public UpdateColorCommand(ShapeManager model, Color color) {
         this.model = model;
-        this.width = width;
+        this.color = color;
         prevShapes = new ArrayList<>(model.getSelectedShapes());
-        prevWidth = new int[prevShapes.size()];
     }
 
     @Override
     public void execute() {
         for (int i = 0; i < prevShapes.size(); i++) {
-            prevWidth[i] = prevShapes.get(i).getWidth();
-            prevShapes.get(i).setWidth(width);
+            prevColors.add(prevShapes.get(i).getColor());
+            prevShapes.get(i).setColor(color);
         }
         model.makeNotify();
     }
@@ -29,7 +32,7 @@ public class UpdateWidthCommand implements Command{
     @Override
     public void undo() {
         for (int i = 0; i < prevShapes.size(); i++) {
-            prevShapes.get(i).setWidth(prevWidth[i]);
+            prevShapes.get(i).setColor(prevColors.get(i));
         }
         model.makeNotify();
     }

@@ -31,7 +31,12 @@ public class ShapeController {
     }
 
     public void updateColor(Color color) {
-        model.updateColor(color);
+        if (model.getSelectedShapes().isEmpty()){
+            model.updateColor(color);
+            return;
+        }
+        Command command = new UpdateColorCommand(model, color);
+        commandManager.executeCommand(command);
     }
 
     public void selectAll() {
@@ -39,7 +44,11 @@ public class ShapeController {
     }
 
     public void deleteShape() {
-        model.deleteShape();
+        if (model.getSelectedShapes().isEmpty()) {
+            return;
+        }
+        Command command = new DeleteShapeCommand(model);
+        commandManager.executeCommand(command);
     }
 
     public void bringToFront() {
