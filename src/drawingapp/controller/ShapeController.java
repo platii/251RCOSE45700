@@ -1,9 +1,7 @@
 package drawingapp.controller;
 
 import drawingapp.ShapeType;
-import drawingapp.commands.ChangeTypeCommand;
-import drawingapp.commands.Command;
-import drawingapp.commands.CommandManager;
+import drawingapp.commands.*;
 import drawingapp.shapes.ShapeManager;
 
 import java.awt.*;
@@ -19,16 +17,17 @@ public class ShapeController {
     }
 
     public void changeType(ShapeType shapeType) {
-        Command command = new ChangeTypeCommand(model, shapeType);
-        commandManager.executeCommand(command);
+        model.setShapeType(shapeType);
     }
 
     public void updateWidth(int width) {
-        model.updateWidth(width);
+        Command command = new UpdateWidthCommand(model, width);
+        commandManager.executeCommand(command);
     }
 
     public void updateHeight(int height) {
-        model.updateHeight(height);
+        Command command = new UpdateHeightCommand(model, height);
+        commandManager.executeCommand(command);
     }
 
     public void updateColor(Color color) {

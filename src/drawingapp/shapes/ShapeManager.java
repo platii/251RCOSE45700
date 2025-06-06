@@ -38,6 +38,11 @@ public class ShapeManager implements Observable {
         return shapes;
     }
 
+    public void makeNotify() {
+        notifyPropertyObservers();
+        notifyDrawObservers();
+    }
+
     public List<DrawableShape> getSelectedShapes() {
         return selectedShapes;
     }

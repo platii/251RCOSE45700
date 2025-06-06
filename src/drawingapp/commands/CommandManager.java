@@ -9,6 +9,7 @@ public class CommandManager {
     public void executeCommand(Command command) {
         command.execute();
         undoCommand.add(command);
+        redoCommand.clear();
     }
 
     public void undo() {
