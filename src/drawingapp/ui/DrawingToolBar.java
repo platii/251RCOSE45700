@@ -26,6 +26,8 @@ public class DrawingToolBar extends JPanel {
         JButton deleteBtn = new JButton("삭제");
         JButton bringToFrontBtn = new JButton("위로");
         JButton sendToBackBtn = new JButton("아래로");
+        JButton undoBtn = new JButton("undo");
+        JButton redoBtn = new JButton("redo");
 
         // 도형 유형 변경
         selectBtn.addActionListener(e -> controller.changeType(ShapeType.SELECT));
@@ -47,6 +49,10 @@ public class DrawingToolBar extends JPanel {
         sendToBackBtn.addActionListener(e -> controller.sendToBack());
         sendToBackBtn.addActionListener(e -> controller.changeType(ShapeType.SELECT));
 
+        undoBtn.addActionListener(e -> controller.undo());
+        redoBtn.addActionListener(e -> controller.redo());
+
+
         this.add(selectBtn);
         this.add(rectBtn);
         this.add(lineBtn);
@@ -55,5 +61,7 @@ public class DrawingToolBar extends JPanel {
         this.add(deleteBtn);
         this.add(bringToFrontBtn);
         this.add(sendToBackBtn);
+        this.add(undoBtn);
+        this.add(redoBtn);
     }
 }

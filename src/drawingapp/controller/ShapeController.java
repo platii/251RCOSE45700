@@ -1,28 +1,26 @@
 package drawingapp.controller;
 
 import drawingapp.ShapeType;
-import drawingapp.shapes.DrawableShape;
+import drawingapp.commands.ChangeTypeCommand;
+import drawingapp.commands.Command;
+import drawingapp.commands.CommandManager;
 import drawingapp.shapes.ShapeManager;
-import drawingapp.ui.DrawingPanel;
-import drawingapp.ui.DrawingToolBar;
-import drawingapp.ui.PropertyPanel;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.Collections;
 
 public class ShapeController {
     ShapeManager model;
-    DrawingPanel drawingPanel;
-    DrawingToolBar drawingToolBar;
-    PropertyPanel propertyPanel;
+    CommandManager commandManager;
 
-    public ShapeController(ShapeManager model) {
+    public ShapeController(ShapeManager model, CommandManager commandManager) {
         this.model = model;
+        this.commandManager = commandManager;
     }
 
     public void changeType(ShapeType shapeType) {
-        model.setShapeType(shapeType);
+        Command command = new ChangeTypeCommand(model, shapeType);
+        commandManager.executeCommand(command);
     }
 
     public void updateWidth(int width) {
@@ -67,6 +65,14 @@ public class ShapeController {
 
     public void pressDelete(KeyEvent e) {
         model.pressDelete(e);
+    }
+
+    public void undo() {
+        commandManager.undo();
+    }
+
+    public void redo() {
+        commandManager.redo();
     }
 
 }

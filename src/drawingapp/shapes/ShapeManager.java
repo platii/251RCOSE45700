@@ -30,6 +30,10 @@ public class ShapeManager implements Observable {
         this.shapeType = shapeType;
     }
 
+    public ShapeType getShapeType() {
+        return shapeType;
+    }
+
     public List<DrawableShape> getShapes() {
         return shapes;
     }
