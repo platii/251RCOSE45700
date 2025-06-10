@@ -2,6 +2,7 @@ package drawingapp.shapes;
 
 import drawingapp.*;
 import drawingapp.Observable;
+import drawingapp.states.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -21,9 +22,21 @@ public class ShapeManager implements Observable {
     int startX, startY, prevMouseX, prevMouseY;
     ResizeHandle selectedResizeHandler = NONE;
     ShapeFactory shapeFactory;
+    State defaultState;
+    State createState;
+    State moveState;
+    State resizeState;
+
+    State state;
 
     public ShapeManager() {
         shapeFactory = new ShapeFactory();
+
+        defaultState = new DefaultState(this);
+        createState = new CreateState(this);
+        moveState = new MoveState(this);
+        resizeState = new ResizeState(this);
+        state = defaultState;
     }
 
     public void setShapeType(ShapeType shapeType) {
