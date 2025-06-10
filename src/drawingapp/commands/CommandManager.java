@@ -26,7 +26,7 @@ public class CommandManager {
             return;
         }
         Command command = redoCommand.remove(redoCommand.size() - 1);
-        command.execute();
+        command.redo();
         undoCommand.add(command);
     }
 }

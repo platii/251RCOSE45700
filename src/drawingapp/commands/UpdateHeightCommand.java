@@ -36,4 +36,9 @@ public class UpdateHeightCommand implements Command{
         }
         model.makeNotify();
     }
+
+    @Override
+    public void redo() {
+        execute();
+    }
 }

@@ -36,4 +36,9 @@ public class UpdateColorCommand implements Command{
         }
         model.makeNotify();
     }
+
+    @Override
+    public void redo() {
+        execute();
+    }
 }

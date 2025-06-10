@@ -31,4 +31,9 @@ public class DeleteShapeCommand implements Command{
         model.addShapes(deleteShapes);
         model.makeNotify();
     }
+
+    @Override
+    public void redo() {
+        execute();
+    }
 }

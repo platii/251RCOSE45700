@@ -77,6 +77,14 @@ public class ShapeManager implements Observable {
         this.state = state;
     }
 
+    public State getState() {
+        return state;
+    }
+
+    public ShapeType getShapeType() {
+        return shapeType;
+    }
+
     public void pressDelete(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_DELETE) {
             shapes.removeAll(selectedShapes);

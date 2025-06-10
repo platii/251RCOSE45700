@@ -1,6 +1,7 @@
 package drawingapp.states;
 
 import drawingapp.ResizeHandle;
+import drawingapp.ShapeType;
 import drawingapp.shapes.DrawableShape;
 import drawingapp.shapes.ShapeManager;
 
@@ -69,7 +70,8 @@ public class DefaultState implements State{
             selectedShapes.clear();
             selectedResizeHandler = NONE;
             model.notifyPropertyObservers();
-            model.setState(model.getCreateState());     // CreateState로 상태 변경
+            if (model.getShapeType() != ShapeType.SELECT)
+                model.setState(model.getCreateState());     // SELECT 모드가 아니면 CreateState로 상태 변경
         }
 
         model.setPrevMouseX(x);

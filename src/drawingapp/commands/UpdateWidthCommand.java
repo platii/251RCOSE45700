@@ -33,4 +33,9 @@ public class UpdateWidthCommand implements Command{
         }
         model.makeNotify();
     }
+
+    @Override
+    public void redo() {
+        execute();
+    }
 }

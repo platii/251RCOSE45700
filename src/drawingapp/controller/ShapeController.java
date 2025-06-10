@@ -3,6 +3,7 @@ package drawingapp.controller;
 import drawingapp.ShapeType;
 import drawingapp.commands.*;
 import drawingapp.shapes.ShapeManager;
+import drawingapp.states.DefaultState;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -10,6 +11,7 @@ import java.awt.event.KeyEvent;
 public class ShapeController {
     ShapeManager model;
     CommandManager commandManager;
+    //Command currentCommand;
 
     public ShapeController(ShapeManager model, CommandManager commandManager) {
         this.model = model;
@@ -61,14 +63,26 @@ public class ShapeController {
 
     public void downClick(int startX, int startY, boolean shiftPressed) {
         model.downClick(startX, startY, shiftPressed);
+//        currentCommand = new MouseClickCommand(model);
+//        MouseClickCommand command = (MouseClickCommand) currentCommand;
+//        command.executeDownClick(startX, startY, shiftPressed);
     }
 
     public void drag(int x, int y) {
         model.drag(x, y);
+//        MouseClickCommand command = (MouseClickCommand) currentCommand;
+//        command.executeDrag(x, y);
     }
 
     public void upClick(int x, int y) {
         model.upClick(x, y);
+//        MouseClickCommand command = (MouseClickCommand) currentCommand;
+//        command.setXY(x, y);
+//        if (model.getState() instanceof DefaultState) {
+//            command.executeUpClick();
+//        } else {
+//            commandManager.executeCommand(currentCommand);
+//        }
     }
 
     public void pressDelete(KeyEvent e) {
