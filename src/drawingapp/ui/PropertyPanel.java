@@ -28,10 +28,6 @@ public class PropertyPanel extends JPanel implements PropertyObserver {
         this.setBackground(new Color(240, 240, 240));
 
         initLabel();
-
-        // 도형 선택 리스너 등록
-        //initListener();
-
     }
 
     private void initLabel() {

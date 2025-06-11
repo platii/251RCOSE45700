@@ -1,5 +1,6 @@
 package drawingapp;
 
+import drawingapp.commands.CommandManager;
 import drawingapp.controller.ShapeController;
 import drawingapp.shapes.ShapeManager;
 import drawingapp.ui.DrawingFrame;
@@ -11,7 +12,8 @@ public class Main {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(() -> {
             ShapeManager model = new ShapeManager();
-            ShapeController controller = new ShapeController(model);
+            CommandManager commandManager = new CommandManager();
+            ShapeController controller = new ShapeController(model, commandManager);
             DrawingPanel drawingPanel = new DrawingPanel(model, controller);
             PropertyPanel propertyPanel = new PropertyPanel(model, controller);
             DrawingToolBar toolBar = new DrawingToolBar(controller);

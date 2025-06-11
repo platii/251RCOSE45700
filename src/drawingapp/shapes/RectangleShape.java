@@ -14,6 +14,7 @@ public class RectangleShape implements DrawableShape {
     private Color color;
     private final float strokeWidth = 3.0F;
     private final int handleSize = 8;
+    private final int id;
 
     public RectangleShape(int x1, int y1, int x2, int y2, Color color) {
         this.x = Math.min(x1, x2);
@@ -21,6 +22,7 @@ public class RectangleShape implements DrawableShape {
         this.width = Math.abs(x2 - x1);
         this.height = Math.abs(y2 - y1);
         this.color = color;
+        this.id = IdGenerator.getNextId();
     }
 
     @Override
@@ -112,6 +114,11 @@ public class RectangleShape implements DrawableShape {
                 this.height = height + dy;
             }
         }
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     @Override

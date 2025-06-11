@@ -14,6 +14,7 @@ public class EllipseShape implements DrawableShape {
     private Color color= Color.BLACK;
     private float strokeWidth = 3.0F;
     private final int handleSize = 8;
+    private final int id;
 
 
     public EllipseShape(int x1, int y1, int x2, int y2, Color color) {
@@ -22,6 +23,7 @@ public class EllipseShape implements DrawableShape {
         this.width = Math.abs(x2 - x1);
         this.height = Math.abs(y2 - y1);
         this.color = color;
+        this.id = IdGenerator.getNextId();
     }
 
     @Override
@@ -121,6 +123,10 @@ public class EllipseShape implements DrawableShape {
     }
 
 
+    @Override
+    public int getId() {
+        return id;
+    }
 
     @Override
     public void moveBy(int dx, int dy) {

@@ -14,6 +14,7 @@ public class LineShape implements DrawableShape {
     private Color color = Color.BLACK;
     private final float strokeWidth = 3.0F;
     private final int handleSize = 8;
+    private final int id;
 
     public LineShape(int x1, int y1, int x2, int y2, Color color) {
         this.x1 = x1;
@@ -21,6 +22,7 @@ public class LineShape implements DrawableShape {
         this.x2 = x2;
         this.y2 = y2;
         this.color = color;
+        this.id = IdGenerator.getNextId();
     }
 
     @Override
@@ -88,6 +90,10 @@ public class LineShape implements DrawableShape {
         //생략
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
 
     @Override
     public void moveBy(int dx, int dy) {

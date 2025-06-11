@@ -29,4 +29,13 @@ public interface DrawableShape {
     ResizeHandle resizeContains(int px, int py);
     void resize(int dx, int dy, ResizeHandle selectedResizeHandler);
 
+    int getId();
+
+    static class IdGenerator {
+        private static int nextId = 1;
+
+        public static synchronized int getNextId() {
+            return nextId++;
+        }
+    }
 }
